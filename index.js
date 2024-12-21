@@ -1,65 +1,82 @@
 // um jogo PEDRA, PAPEL, TESOURA contra o COMPUTADOR
 
-// HUMANO faz sua escolha
+// PLAYERS SCORE
 
-let HumanChoice = prompt("Choose one: Rock, Paper, Scissors");
+let humanScore = 0;
+let computerScore = 0;
 
-function getHumanChoice() {
-    return HumanChoice
-}
-
-// COMPUTADOR faz sua escolha
+// COMPUTADOR faz sua escolha // OK
 
 function getComputerChoice() {
-    let randomNumber = Math.floor(Math.random() * 3) + 1;
+    const randomNumber = Math.floor(Math.random() * 3) + 1;
         if (randomNumber == 1) {
-            ComputerChoice = "Rock";
+            computerChoice = "rock";
         }
         else if (randomNumber == 2) {
-            ComputerChoice = "Paper";
+            computerChoice = "paper";
         }
         else if (randomNumber == 3) {
-            ComputerChoice = "Scissors";
+            computerChoice = "scissors";
         };
-    return ComputerChoice
+    return computerChoice
 }
 
-// faz a COMPARAÇÃO
-// PEDRA contra PEDRA empate 
-// PEDRA contra TESOURA ganha 
-// PEDRA contra PAPEL perde
-// PAPEL contra PAPEL empate
-// PAPEL contra PEDRA ganha
-// PAPEL contra TESOURA perde
-// TESOURA contra TESOURA empate
-// TESOURA contra PAPEL ganha
-// TESOURA contra PEDRA perde
+// HUMANO faz sua escolha // OK
 
-function result(){
-    if (ComputerChoice == "Rock" && HumanChoice == "Rock" ||
-        ComputerChoice == "Paper" && HumanChoice == "Paper" ||
-        ComputerChoice == "Scissors" && HumanChoice == "Scissors"
-    ) {
-        resultado = "It's a tie!"
+function getHumanChoice() {
+    let humanChoice = prompt("Choose one: rock, paper, scissors").toLowerCase();
+    return humanChoice
+}
+
+
+
+// PLAY GAME
+
+
+function playRound(humanChoice, computerChoice){
+
+    if (computerChoice === humanChoice) {
+        resultado = `It's a tie! Both chose ${humanChoice}`;
     }
-    else if (ComputerChoice == "Rock" && HumanChoice == "Scissors" ||
-            ComputerChoice == "Paper" && HumanChoice == "Rock" ||
-            ComputerChoice == "Scissors" && HumanChoice == "Paper"
+    else if (computerChoice == "rock" && humanChoice == "scissors" ||
+            computerChoice == "paper" && humanChoice == "rock" ||
+            computerChoice == "scissors" && humanChoice == "paper"
     ) {
-        resultado = "Computer Wins!"
+        resultado = (`Computer Wins! ${computerChoice} beats ${humanChoice}`);
+        computerScore++;
     }
-    else if (ComputerChoice == "Rock" && HumanChoice == "Paper" ||
-            ComputerChoice == "Paper" && HumanChoice == "Scissors" ||
-            ComputerChoice == "Scissors" && HumanChoice == "Rock"
+    else if (computerChoice == "rock" && humanChoice == "paper" ||
+             computerChoice == "paper" && humanChoice == "scissors" ||
+            computerChoice == "scissors" && humanChoice == "rock"
     ) {
-        resultado = "Human Wins!"
-    }
+    resultado = (`Human Wins! ${humanChoice} beats ${computerChoice}`);
+        humanScore++;
+       }
     else {
         resultado = "Something's wrong, try again!"
     }
+
     return resultado
 }
 
-console.log("Computer: " + getComputerChoice())
-console.log("Human: " + getHumanChoice())
-console.log("Result: " + result())
+
+
+function playGame(){
+
+    for (let i = 0; i < 5; i++){ 
+
+    let humanSelection = getHumanChoice();
+    let computerSelection = getComputerChoice();
+    playRound (humanSelection, computerSelection);
+
+
+    console.log("Round " + (i + 1));
+    console.log("Computer: " + computerSelection)
+    console.log("Human: " + humanSelection)
+    console.log("Result: " + resultado)
+    console.log("Human has: " + humanScore + " points")
+    console.log("Computer has: " + computerScore + " points")
+    }
+}
+
+playGame();
